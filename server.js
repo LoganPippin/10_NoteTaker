@@ -33,7 +33,13 @@ app.post("/api/notes", function (req, res) {
 });
 
 app.delete("/api/notes/:id", function (req, res) {
-  fs.writeFileSync("./db/db.json", JSON.stringify(note));
+  note = note.filter((notes) => notes.id != req.params.id);
+
+  fs.writeFile("./db/db.json", JSON.stringify(note), (err) => {
+    if (err) throw err;
+  });
+  console.log(note);
+  res.json(note);
 });
 
 app.listen(PORT, function () {
